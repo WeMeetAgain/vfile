@@ -11,6 +11,7 @@
                 #:extname
                 #:relative)
   (:import-from #:uiop
+		#:directory-exists-p
                 #:getcwd)
   (:export #:vfile-cwd
            #:vfile-base
@@ -25,6 +26,5 @@
            #:vfile-stream-p
            #:vfile-pathname-p
            #:vfile-null-p
-           #:vfile-directory-p
            #:vfile-open
            #:vfile))

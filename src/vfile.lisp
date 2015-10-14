@@ -13,10 +13,6 @@
      :initarg :history
      :accessor vfile-history
      :initform nil)
-   (%directory-p
-     :initarg :directory-p
-     :accessor vfile-directory-p
-     :initform nil)
    (%contents
      :initarg :contents
      :reader vfile-contents
@@ -97,14 +93,14 @@
 
 (defmethod vfile-open ((f vfile) &rest rest)
   (cond
-    ((vfile-directory-p f)
-     (make-string-input-stream ""))
     ((vfile-buffer-p f)
      (make-instance 'fast-input-stream
                     :vector (vfile-contents f)))
     ((vfile-stream-p f)
      (vfile-contents f))
-    ((vfile-pathname-p f) 
-     (apply #'open (vfile-contents f) rest))
+    ((vfile-pathname-p f)
+     (if (directory-exists-p (vfile-contents f))
+	 (make-string-input-stream "")
+	 (apply #'open (vfile-contents f) rest)))
     ((vfile-null-p f)
      (make-string-input-stream ""))))

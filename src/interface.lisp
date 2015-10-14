@@ -42,6 +42,4 @@
 
 (defgeneric vfile-null-p (vfile))
 
-(defgeneric vfile-directory-p (vfile))
-
 (defgeneric vfile-open (vfile &rest rest))
