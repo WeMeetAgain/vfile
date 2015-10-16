@@ -27,4 +27,5 @@
            #:vfile-pathname-p
            #:vfile-null-p
            #:vfile-open
+           #:with-open-vfile
            #:vfile))

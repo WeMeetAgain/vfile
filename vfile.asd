@@ -12,7 +12,8 @@
 		((:file "package")
 		 (:file "interface")
 		 (:file "util")
-		 (:file "vfile"))))
+		 (:file "vfile")
+		 (:file "with-open-vfile"))))
   :long-description #.(uiop:read-file-string
 		       (uiop:subpathname *load-pathname* "README.md"))
   :in-order-to ((test-op (test-op vfile-test))))
