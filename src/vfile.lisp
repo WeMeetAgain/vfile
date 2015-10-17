@@ -19,7 +19,8 @@
      :initform nil)))
 
 (defmethod print-object ((f vfile) stream)
-  (format stream "#<VFILE ~S ~S>"
+  (format stream "#<~A ~S ~S>"
+      (class-name (class-of f))
 	  (if (and (vfile-base f) (vfile-path f))
 	      (vfile-relative f)
 	      (vfile-path f))
