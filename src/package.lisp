@@ -22,10 +22,9 @@
            #:vfile-extname
            #:vfile-path
            #:vfile-relative
-           #:vfile-buffer-p
-           #:vfile-stream-p
-           #:vfile-pathname-p
-           #:vfile-null-p
            #:vfile-open
            #:with-open-vfile
+           #:contents-input-stream
+           #:contents-output-stream
+           #:contents-io-stream
            #:vfile))

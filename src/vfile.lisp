@@ -15,7 +15,7 @@
      :initform nil)
    (%contents
      :initarg :contents
-     :reader vfile-contents
+     :accessor vfile-contents
      :initform nil)))
 
 (defmethod print-object ((f vfile) stream)
@@ -25,14 +25,6 @@
 	      (vfile-path f))
 	  (vfile-contents f))
   f)
-
-(defmethod (setf vfile-contents) ((f vfile) contents)
-  (when (and (not (buffer-p contents))
-             (not (streamp contents))
-             (not (pathnamep contents))
-             (not (null contents)))
-    (error "Contents can only be a buffer, stream, pathname, or nil"))
-  (setf (slot-value f '%contents) contents))
 
 (defmethod file-dirname ((f vfile))
   (unless (vfile-path f)
@@ -79,28 +71,28 @@
     (error "No path specified, cannot get relative."))
   (relative (vfile-base f) (vfile-path f)))
 
-(defmethod vfile-buffer-p ((f vfile))
-  (buffer-p (vfile-contents f)))
-
-(defmethod vfile-stream-p ((f vfile))
-  (streamp (vfile-contents f)))
-
-(defmethod vfile-pathname-p ((f vfile))
-  (pathnamep (vfile-contents f)))
-
-(defmethod vfile-null-p ((f vfile))
-  (null (vfile-contents f)))
-
-(defmethod vfile-open ((f vfile) &rest rest)
+(defmethod vfile-open ((f vfile) &key (direction :input))
   (cond
-    ((vfile-buffer-p f)
-     (make-instance 'fast-input-stream
-                    :vector (vfile-contents f)))
-    ((vfile-stream-p f)
-     (vfile-contents f))
-    ((vfile-pathname-p f)
-     (if (directory-exists-p (vfile-contents f))
-	 (make-string-input-stream "")
-	 (apply #'open (vfile-contents f) rest)))
-    ((vfile-null-p f)
-     (make-string-input-stream ""))))
+    ((eq direction :input)
+     (contents-input-stream (vfile-contents f)))
+    ((eq direction :output)
+     (contents-output-stream (vfile-contents f)))
+    ((eq direction :io)
+     (contents-io-stream (vfile-contents f)))))
+
+;;; stream methods for vector, stream, pathname, and null
+
+(defmethod contents-input-stream ((contents vector))
+  (make-instance 'fast-input-stream
+                 :vector contents))
+
+(defmethod contents-input-stream ((contents stream))
+  contents)
+
+(defmethod contents-input-stream ((contents pathname))
+  (if (directory-exists-p contents)
+	  (make-string-input-stream "")
+	  (open contents :direction :input)))
+
+(defmethod contents-input-stream ((contents null))
+  (make-string-input-stream ""))

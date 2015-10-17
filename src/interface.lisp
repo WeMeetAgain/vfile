@@ -34,12 +34,11 @@
 
 (defgeneric vfile-relative (vfile))
 
-(defgeneric vfile-buffer-p (vfile))
+(defgeneric vfile-open (vfile &key direction))
 
-(defgeneric vfile-stream-p (vfile))
+(defgeneric contents-input-stream (contents))
 
-(defgeneric vfile-pathname-p (vfile))
+(defgeneric contents-output-stream (contents))
 
-(defgeneric vfile-null-p (vfile))
+(defgeneric contents-io-stream (contents))
 
-(defgeneric vfile-open (vfile &rest rest))
