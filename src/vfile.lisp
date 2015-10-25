@@ -92,8 +92,8 @@
 
 (defmethod contents-input-stream ((contents pathname))
   (if (directory-exists-p contents)
-	  (make-string-input-stream "")
-	  (open contents :direction :input)))
+      (make-instance 'fast-input-stream)
+      (open contents :direction :input :element-type '(unsigned-byte 8))))
 
 (defmethod contents-input-stream ((contents null))
-  (make-string-input-stream ""))
+  (make-instance 'fast-input-stream))
