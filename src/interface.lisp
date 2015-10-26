@@ -8,10 +8,6 @@
 
 (defgeneric (setf vfile-base) (vfile base))
 
-(defgeneric vfile-history (vfile))
-
-(defgeneric (setf vfile-history) (vfile history))
-
 (defgeneric vfile-contents (vfile))
 
 (defgeneric (setf vfile-contents) (vfile contents))

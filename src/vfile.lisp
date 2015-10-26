@@ -9,9 +9,9 @@
      :initarg :base
      :accessor vfile-base
      :initform nil)
-   (%history
-     :initarg :history
-     :accessor vfile-history
+   (%path
+     :initarg :path
+     :accessor vfile-path
      :initform nil)
    (%contents
      :initarg :contents
@@ -58,12 +58,6 @@
   (unless (vfile-path f)
     (error "No path specified, cannot set extname."))
   (setf (vfile-path f) (replace-ext (file-path f) extname)))
-
-(defmethod vfile-path ((f vfile))
-  (first (vfile-history f)))
-
-(defmethod (setf vfile-path) ((f vfile) (path string))
-  (push path (vfile-history f)))
 
 (defmethod vfile-relative ((f vfile))
   (unless (vfile-base f)

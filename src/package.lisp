@@ -15,7 +15,6 @@
                 #:getcwd)
   (:export #:vfile-cwd
            #:vfile-base
-           #:vfile-history
            #:vfile-contents
            #:vfile-dirname
            #:vfile-basename
